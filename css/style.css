@@ -1,0 +1,15 @@
+/* clear */
+* { margin: 0; padding: 0;}
+.clearfix::before, .clearfix::after {display: block; content:''; clear:both;}
+
+#wrap {width: 1200px; height: 700px; background: #999; margin: 0 auto;}
+
+/* side */
+#side {float: left; width: 300px; height: 700px; }
+#side > #name {width: 100%; height: 200px; background: #222;}
+#side > #turn {width: 100%; height: 200px; background: #333;}
+#side > #time {width: 100%; height: 300px; background: #444;}
+
+#contents {position: relative; float: left; width: 600px; height: 700px; background: #333;}
+#contents > #board {position:absolute; top: 75px; left:100px; width: 400px; height: 533px; background:#999;}
+#contents > #board  #btn {float: left; width: 133.33px; height: 133.3px;}
