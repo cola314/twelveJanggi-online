@@ -27,12 +27,14 @@ function button_yx(y, x) {
         refresh();
         alert("플레이어 1 승리");
         game.init_game();
+        turn = PLAYER1;
         
     }
     else if(game.state == PLAYER2) {
         refresh();
         alert("플레이어 2 승리");
         game.init_game();
+        turn = PLAYER1;
     }
     refresh();
 }
