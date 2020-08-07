@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>십이장기</h1>
+    <form action="">
+        <p>이름</p><input id="name" type="text">
+        <p>방번호</p><input id="val" type="text">
+        <button>점속</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+          var socket = io();
+          $('form').submit(function(e){
+            e.preventDefault(); // prevents page reloading
+            var data = {
+              name : $('#name').val(),
+              val : $('#val').val()
+            }
+            socket.emit('chat message', JSON.stringify(data));
+            return false;
+          });
+          socket.on('chat message', function(msg){
+            console.log(msg);
+            if(msg == 'no') alert("방을 들어갈 수 없습니다");
+            else window.location.href = "http://118.220.3.169:3000/game.html?name=" + $('#name').val() + "&val=" + $('#val').val();
+          });
+        });
+    </script>
+</body>
+</html>
