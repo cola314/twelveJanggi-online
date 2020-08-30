@@ -1,2 +1,2 @@
-# online_game
-십이장기 온라인 게임
+# twelveJanggi-online
+nodejs로 만든 십이장기 온라인 게임
