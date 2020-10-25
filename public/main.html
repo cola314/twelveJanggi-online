@@ -29,7 +29,7 @@
           socket.on('chat message', function(msg){
             console.log(msg);
             if(msg == 'no') alert("방을 들어갈 수 없습니다");
-            else window.location.href = "http://118.220.3.169:3000/game.html?name=" + $('#name').val() + "&val=" + $('#val').val();
+            else window.location.href = "http://localhost:3000/game.html?name=" + $('#name').val() + "&val=" + $('#val').val();
           });
         });
     </script>

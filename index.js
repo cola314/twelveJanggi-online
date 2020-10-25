@@ -13,11 +13,11 @@ eval(text);
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/main.html');
+  res.sendFile(__dirname + '/public/main.html');
 });
 
 app.get('/game.html', (req, res) => {
-    res.sendFile(__dirname + '/game.html');
+    res.sendFile(__dirname + '/public/game.html');
 });
 
 
