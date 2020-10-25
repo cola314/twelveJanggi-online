@@ -82,6 +82,7 @@ GAME.prototype.button_click = function (player, pos) {
     if (player != this.turn) return 0;
     if (pos.from == HAVING) {
         if (player == PLAYER1) {
+            if(this.player1[pos.y] == null) return NOTHING;
             this.selected = this.player1[pos.y];
             clear_highlighted(this.board);
             for (let i = 1; i < 4; i++) {
@@ -93,6 +94,7 @@ GAME.prototype.button_click = function (player, pos) {
             }
         }
         else if (player == PLAYER2) {
+            if(this.player2[pos.y] == null) return NOTHING;
             this.selected = this.player2[pos.y];
             clear_highlighted(this.board);
             for (let i = 0; i < 3; i++) {

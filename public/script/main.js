@@ -9,12 +9,12 @@ socket.emit('player in', window.location.href);
 socket.on('chat message', function(msg){
     console.log(msg);
     if(msg == "p1") {
-        alert($('#name1').text() + "플레이어가 이겼습니다.");
+        alert($('#name1').text() + " 플레이어가 이겼습니다.");
         window.location.reload();
         start = false;
     }
     else if(msg == "p2") {
-        alert($('#name1').text() + "플레이어가 이겼습니다");
+        alert($('#name1').text() + " 플레이어가 이겼습니다");
         window.location.reload();
         start = false;
     }
@@ -52,16 +52,18 @@ $('document').ready(function () {
 });
 
 function player1(x) {
+    if(turn != PLAYER1) return;
     socket.emit('game input', JSON.stringify(
-        new POS(PLAYER1, x, 0)
+        new POS(HAVING, x, 0)
     ));
     game.button_click(PLAYER1, new POS(HAVING, x, 0));
     refresh();
 }
 
 function player2(x) {
+    if(turn != PLAYER2) return;
     socket.emit('game input', JSON.stringify(
-        new POS(PLAYER2, x, 0)
+        new POS(HAVING, x, 0)
     ));
     game.button_click(PLAYER2, new POS(HAVING, x, 0));
     refresh();
