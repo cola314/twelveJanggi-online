@@ -6,6 +6,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 //include 
 var fs = require('fs');
+const { Console } = require('console');
 var text = fs.readFileSync('./public/script/new.js') + '';
 eval(text);
 
@@ -57,16 +58,22 @@ io.on('connection', (socket) => {
             if(game.turn == 1) game.set_turn(2);
             else game.set_turn(1);
         }
+
+        io.to(r.p1).emit('chat message', JSON.stringify(r));
+        io.to(r.p2).emit('chat message', JSON.stringify(r));
+
         if(game.state == PLAYER1) {
             io.to(r.p1).emit('chat message', 'p1');
             io.to(r.p2).emit('chat message', 'p1');
+
+            game.init_game();
         }
         else if(game.state == PLAYER2) {
             io.to(r.p1).emit('chat message', 'p2');
             io.to(r.p2).emit('chat message', 'p2');
+
+            game.init_game();
         }
-        io.to(r.p1).emit('chat message', JSON.stringify(r));
-        io.to(r.p2).emit('chat message', JSON.stringify(r));
     });
     
     socket.on('player in', (msg) => {
@@ -86,18 +93,35 @@ io.on('connection', (socket) => {
         }
         player[socket.id] = [val, turn];
         room[val].game = new GAME();
+
+        let r = room[val];
+        
+        if(r.p1 && r.p2 && Math.floor(Math.random() * 2) % 2 == 0) {
+            [r.p1, r.p2] = [r.p2, r.p1];
+            [r.p1_name, r.p2_name] = [r.p2_name, r.p1_name];
+            [player[r.p1][1], player[r.p2][1]] = [player[r.p2][1], player[r.p1][1]];
+        }
+
+
+        if(r.p1) io.to(r.p1).emit('chat message', JSON.stringify(r));
+        if(r.p2) io.to(r.p2).emit('chat message', JSON.stringify(r));
     });
 
     //user out
     socket.on('disconnect', () => {
         console.log(socket.id + 'user disconnected');
+        let r;
+
+        if(player[socket.id]) {
+            r = room[player[socket.id][0]];
+            if(r.p1 == socket.id) r.p1 = r.p1_name = null;
+            else if(r.p2 == socket.id) r.p2 = r.p2_name = null;
+        }
+        
         player[socket.id] = null;
-        try {
-            room[player[socket.id][0]] = null;
-        }
-        catch(e) {
-            console.log(e);
-        }
+
+        if(r && r.p1) io.to(r.p1).emit('chat message', JSON.stringify(r));
+        if(r && r.p2) io.to(r.p2).emit('chat message', JSON.stringify(r)); 
     });
 });
 

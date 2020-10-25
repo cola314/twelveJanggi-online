@@ -1,5 +1,9 @@
-var game;
+var game = new GAME();
 var turn = PLAYER1;
+
+var start = false;
+
+var res;
 
 var socket = io();
 socket.emit('player in', window.location.href);
@@ -8,13 +12,21 @@ socket.on('chat message', function(msg){
     console.log(msg);
     if(msg == "p1") {
         alert("플레이어 1이 이겼습니다.");
+        window.location.reload();
+        start = false;
     }
     else if(msg == "p2") {
         alert("플레이어 2가 이겼습니다");
+        window.location.reload();
+        start = false;
     }
     else {
-        let res = JSON.parse(msg);
+        start = true;
+
+        res = JSON.parse(msg);
+        console.log(res);
         let tmp = res.game;
+        console.log(tmp.turn);
         game.turn = tmp.turn;
         game.state = tmp.state;
         game.player1 = tmp.player1;
@@ -37,7 +49,6 @@ socket.on('chat message', function(msg){
 
 
 $('document').ready(function () {
-    game = new GAME();
     game.set_turn(turn);
     refresh();
 });
@@ -59,6 +70,8 @@ function player2(x) {
 }
 
 function button_yx(y, x) {
+    if(!start) return;
+
     socket.emit('game input', JSON.stringify(
         new POS(BOARD, y, x)
     ));
@@ -66,19 +79,6 @@ function button_yx(y, x) {
         if(turn == PLAYER1) turn = PLAYER2;
         else if(turn == PLAYER2) turn = PLAYER1;
         game.set_turn(turn);
-    }
-    if(game.state == PLAYER1) {
-        refresh();
-        alert("플레이어 1 승리");
-        game.init_game();
-        turn = PLAYER1;
-        
-    }
-    else if(game.state == PLAYER2) {
-        refresh();
-        alert("플레이어 2 승리");
-        game.init_game();
-        turn = PLAYER1;
     }
     refresh();
 }
