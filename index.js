@@ -65,8 +65,8 @@ io.on('connection', (socket) => {
             io.to(r.p1).emit('chat message', 'p2');
             io.to(r.p2).emit('chat message', 'p2');
         }
-        io.to(r.p1).emit('chat message', JSON.stringify(game));
-        io.to(r.p2).emit('chat message', JSON.stringify(game));
+        io.to(r.p1).emit('chat message', JSON.stringify(r));
+        io.to(r.p2).emit('chat message', JSON.stringify(r));
     });
     
     socket.on('player in', (msg) => {
@@ -76,10 +76,12 @@ io.on('connection', (socket) => {
         console.log(data);
         if(room[val].p1 == null) {
             room[val].p1 = socket.id;
+            room[val].p1_name = name;
             turn = 1;
         }
         else if(room[val].p2 == null) {
             room[val].p2 = socket.id;
+            room[val].p2_name = name;
             turn = 2;
         }
         player[socket.id] = [val, turn];
@@ -117,6 +119,8 @@ for(var i = 0; i < 3000; i++) {
     room[i] = {
         p1 : null,
         p2 : null,
+        p1_name : null,
+        p2_name : null,
         game : new GAME()
     }
 }

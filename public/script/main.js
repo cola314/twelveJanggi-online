@@ -13,7 +13,8 @@ socket.on('chat message', function(msg){
         alert("플레이어 2가 이겼습니다");
     }
     else {
-        let tmp = JSON.parse(msg);
+        let res = JSON.parse(msg);
+        let tmp = res.game;
         game.turn = tmp.turn;
         game.state = tmp.state;
         game.player1 = tmp.player1;
@@ -21,6 +22,14 @@ socket.on('chat message', function(msg){
         game.board = tmp.board;
         game.selected = tmp.selected;
         console.log(msg);
+
+        //set player name
+        turn = res.p1 === socket.id ? PLAYER1 : PLAYER2;
+
+        $('#name1').text(res.p1_name); 
+        $('#name2').text(res.p2_name); 
+       
+
         refresh();
     }
 });
@@ -91,6 +100,16 @@ function refresh() {
         for (let j = 0; j < 3; j++) {
             screen_bd[i * 3 + j].src = 'images/' + mal_str(bd[i][j]) + '.png';
         }
+    }
+
+    //TODO turn color
+    if(game.turn == PLAYER1) {
+        $('#turn1').css('background', 'black');
+        $('#turn2').css('background', 'white');
+    }
+    else {
+        $('#turn1').css('background', 'white');
+        $('#turn2').css('background', 'black');
     }
 }
 
