@@ -4,18 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <h1>십이장기</h1>
+    <center><h1>십이장기</h1></center>
+    <!-- 
     <form action="">
         <p>이름</p><input id="name" type="text">
         <p>방번호</p><input id="val" type="text">
         <button>점속</button>
     </form>
+    -->
+    <div class="main">
+      <form action="login_check.php" method="post">
+        <fieldset>
+            <legend><h2>로그인</h2></legend>
+            <input type="text" id="name" placeholder="이름"/>
+            <br/>
+            <input type="text" id="val" placeholder="방번호"/>
+            <br/>
+            <button>접속</button>
+        </fieldset>
+      </form>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         $(function () {
+          //const url = "http://192.168.0.2:3000";
           var socket = io();
           $('form').submit(function(e){
             e.preventDefault(); // prevents page reloading
@@ -29,7 +45,7 @@
           socket.on('chat message', function(msg){
             console.log(msg);
             if(msg == 'no') alert("방을 들어갈 수 없습니다");
-            else window.location.href = "http://localhost:3000/game.html?name=" + $('#name').val() + "&val=" + $('#val').val();
+            else window.location.href = "/game.html?name=" + $('#name').val() + "&val=" + $('#val').val();
           });
         });
     </script>

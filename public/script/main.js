@@ -3,7 +3,6 @@ var turn = PLAYER1;
 
 var start = false;
 
-var res;
 
 var socket = io();
 socket.emit('player in', window.location.href);
@@ -23,7 +22,7 @@ socket.on('chat message', function(msg){
     else {
         start = true;
 
-        res = JSON.parse(msg);
+        let res = JSON.parse(msg);
         console.log(res);
         let tmp = res.game;
         console.log(tmp.turn);
@@ -37,6 +36,8 @@ socket.on('chat message', function(msg){
 
         //set player name
         turn = res.p1 === socket.id ? PLAYER1 : PLAYER2;
+
+
 
         $('#name1').text(res.p1_name); 
         $('#name2').text(res.p2_name); 
@@ -104,13 +105,18 @@ function refresh() {
 
     //TODO turn color
     if(game.turn == PLAYER1) {
-        $('#turn1').css('background', 'black');
+        $('#turn1').css('background', 'yellow');
         $('#turn2').css('background', 'white');
     }
     else {
         $('#turn1').css('background', 'white');
-        $('#turn2').css('background', 'black');
+        $('#turn2').css('background', 'yellow');
     }
+    
+    /*
+    if(turn == PLAYER1) $('#contents').css('background', 'greenyellow');
+    else $('#contents').css('background', 'pink');
+    */
 }
 
 function mal_str(mal) {
