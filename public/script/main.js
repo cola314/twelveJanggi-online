@@ -3,25 +3,22 @@ var turn = PLAYER1;
 
 var start = false;
 
-
 var socket = io();
 socket.emit('player in', window.location.href);
 //input
 socket.on('chat message', function(msg){
     console.log(msg);
     if(msg == "p1") {
-        alert("플레이어 1이 이겼습니다.");
+        alert($('#name1').text() + "플레이어가 이겼습니다.");
         window.location.reload();
         start = false;
     }
     else if(msg == "p2") {
-        alert("플레이어 2가 이겼습니다");
+        alert($('#name1').text() + "플레이어가 이겼습니다");
         window.location.reload();
         start = false;
     }
     else {
-        start = true;
-
         let res = JSON.parse(msg);
         console.log(res);
         let tmp = res.game;
@@ -37,10 +34,10 @@ socket.on('chat message', function(msg){
         //set player name
         turn = res.p1 === socket.id ? PLAYER1 : PLAYER2;
 
+        if(res.p1_name && res.p2_name) start = true;
 
-
-        $('#name1').text(res.p1_name); 
-        $('#name2').text(res.p2_name); 
+        $('#name1').text(decodeURI(res.p1_name)); 
+        $('#name2').text(decodeURI(res.p2_name)); 
        
 
         refresh();

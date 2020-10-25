@@ -115,6 +115,10 @@ GAME.prototype.button_click = function (player, pos) {
                 for (let i = 0; i < 6; i++) {
                     if (this_player[i] == null) {
                         this_player[i] = new MAL(player, this.board[pos.y][pos.x].type, new POS(HAVING, i, 0), false);
+                        //Hu -> Ja
+                        if(this_player[i].type == Hu) {
+                            this_player[i].type = Ja;
+                        }
                         break;
                     }
                 }
@@ -126,6 +130,10 @@ GAME.prototype.button_click = function (player, pos) {
                 for (let i = this.selected.pos.y; i < 5; i++) {
                     if(this_player[i + 1] != null) {
                         this_player[i] = new MAL(player, this_player[i+1].type, new POS(HAVING, i, 0), false);
+                        //Hu -> Ja
+                        if(this_player[i].type == Hu) {
+                            this_player[i].type = Ja;
+                        }
                     }
                     else this_player[i] = null;
                 }
